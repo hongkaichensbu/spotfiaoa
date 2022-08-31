@@ -33,9 +33,8 @@ num_paths = 4;%8;
 % load('calibration/offset_12.mat');
 % load('calibration/offset_13.mat');
 
-%off_cfg = '-off-00' 
-% off_cfg = '-417off-11' 
-off_cfg = '-format-2-417off-11'
+off_cfg = '-417off-11' 
+% off_cfg = '-format-2-417off-11'
 load('calibration/2021-4-17-offset_12.mat');
 load('calibration/2021-4-17-offset_13.mat');
 
@@ -88,6 +87,7 @@ S_i=1;
 % get all the files in the folder
 files = dir(fullfile(dataDir,'*.mat'));
 files = files(1);
+% files = files(2);
 
 %count = 0;
 %poolobj = parpool(4);
@@ -132,12 +132,12 @@ for k = 1:length(files)
         figname = strrep(filename,'.mat','');
         
         %for ii=S_i:50:S_i+nSnaps
-        for ii=1:20%data_size
+        for ii=1:data_size %1:20
             fprintf("File: %s nPath: %d #: %d\n",filename,nPaths,ii);
             
             
-%             csi = reshape(csi_all(ii,:),[3,30]);
-            csi = reshape(csi_all(ii,:), 30, [])';
+            csi = reshape(csi_all(ii,:),[3,30]);
+%             csi = reshape(csi_all(ii,:), 30, [])';
             
             %plot(db(abs(squeeze(csi(1,:,:)).')))
             %db(get_eff_SNRs(csi), 'pow')
@@ -281,14 +281,14 @@ for k = 1:length(files)
         %clf(fig1);
         
         matname_aoa = strcat(dataDir,'aoadata/',figname,'-aoa-nPaths-',num2str(i),off_cfg,'-40mhz.mat');
-        if true%data_size < 1000
+        if data_size < 1000
             parsave(matname_aoa, totalAOA);
         else
             parsaveapp(matname_aoa, totalAOA);
         end
         
         matname_tof = strcat(dataDir,'aoadata/',figname,'-tof-nPaths-',num2str(i),off_cfg,'-40mhz.mat');
-        if true%data_size < 1000
+        if data_size < 1000
             parsave(matname_tof, totalTOF);
         else
             parsaveapp(matname_tof, totalTOF);
